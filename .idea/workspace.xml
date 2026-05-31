@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aff56ba1-4cc9-41f3-9b6d-7fdf79b06ef5" name="Changes" comment="Add theme toggle and enhance UI layout in main.py">
+    <list default="true" id="aff56ba1-4cc9-41f3-9b6d-7fdf79b06ef5" name="Changes" comment="deleted instruction prompt file">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +19,65 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.8010813628611362" />
+      <entry key="MS500" value="2.0886549444071845" />
+      <entry key="S2" value="3.4793181571730636" />
+      <entry key="S5" value="4.662329844437864" />
+      <entry key="S10" value="5.258359240590699" />
+      <entry key="S30" value="5.734456403063465" />
+      <entry key="S60" value="5.864787420794142" />
+      <entry key="M2" value="5.931771680744353" />
+      <entry key="M5" value="5.9725578431785395" />
+      <entry key="M10" value="5.98625365375214" />
+      <entry key="M15" value="5.990830144448089" />
+      <entry key="M30" value="5.995412257448781" />
+      <entry key="H1" value="5.9977054245773385" />
+      <entry key="H2" value="5.998852536195219" />
+      <entry key="H4" value="5.999426224067159" />
+      <entry key="D1" value="5.9999043645619174" />
+      <entry key="W1" value="5.999986337644775" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9571939796122935" />
+      <entry key="MS500" value="1.51908112721836" />
+      <entry key="S2" value="3.179677734783589" />
+      <entry key="S5" value="4.481988534922158" />
+      <entry key="S10" value="5.151510766278251" />
+      <entry key="S30" value="5.694204757614384" />
+      <entry key="S60" value="5.8440132133071865" />
+      <entry key="M2" value="5.921216842731154" />
+      <entry key="M5" value="5.968294909110334" />
+      <entry key="M10" value="5.984115290793902" />
+      <entry key="M15" value="5.989403032032377" />
+      <entry key="M30" value="5.9946979315120394" />
+      <entry key="H1" value="5.99734806895637" />
+      <entry key="H2" value="5.998673810194014" />
+      <entry key="H4" value="5.999336849015428" />
+      <entry key="D1" value="5.999889467045903" />
+      <entry key="W1" value="5.999984209387199" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 4,
@@ -143,7 +202,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1780245270419</updated>
-      <workItem from="1780245271455" duration="4334000" />
+      <workItem from="1780245271455" duration="4929000" />
     </task>
     <task id="LOCAL-00001" summary="Add theme toggle and enhance UI layout in main.py">
       <option name="closed" value="true" />
@@ -153,7 +212,23 @@
       <option name="project" value="LOCAL" />
       <updated>1780260741496</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add copyright notice modal to main application">
+      <option name="closed" value="true" />
+      <created>1780260914686</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1780260914687</updated>
+    </task>
+    <task id="LOCAL-00003" summary="deleted instruction prompt file">
+      <option name="closed" value="true" />
+      <created>1780261000882</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1780261000882</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +247,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add theme toggle and enhance UI layout in main.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add theme toggle and enhance UI layout in main.py" />
+    <MESSAGE value="Add copyright notice modal to main application" />
+    <MESSAGE value="deleted instruction prompt file" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted instruction prompt file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -199,6 +276,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/R6v3$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1780258372168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/R6v3$main.coverage" NAME="main Coverage Results" MODIFIED="1780260851688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/R6v3$main.coverage" NAME="main Coverage Results" MODIFIED="1780260858864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

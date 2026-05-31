@@ -1,8 +1,6 @@
-import sys
 import os
 import threading
 import tkinter as tk
-from typing import Optional
 from tkinter import filedialog, messagebox
 
 import customtkinter

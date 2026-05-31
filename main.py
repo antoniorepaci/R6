@@ -1,17 +1,22 @@
-"""Entrypoint minimale del progetto.
+"""Minimal entry point of the project.
 
-Questo file re-esporta alcune utility usate dagli script di test (es. `smoke_test.py`)
-e avvia l'app quando eseguito come script.
+This file re-exports utility functions used by test scripts (e.g. `smoke_test.py`)
+and executes the app when run as a script.
 """
 
 from utils.ffmpeg import get_ffmpeg_path
-from ytdl_opts import costruisci_ydl_opts
+from ytdl_opts import build_ydl_opts
 
-# Manteniamo l'app separata in `app.py`.
+# Keep the main application UI separated in `app.py`
 from app import App
 
 
-__all__ = ["get_ffmpeg_path", "costruisci_ydl_opts", "App"]
+# Keep build_ydl_opts aliased under the old name if backward compatibility is needed,
+# but also define it clearly in English as requested.
+costruisci_ydl_opts = build_ydl_opts
+
+
+__all__ = ["get_ffmpeg_path", "build_ydl_opts", "costruisci_ydl_opts", "App"]
 
 
 if __name__ == "__main__":

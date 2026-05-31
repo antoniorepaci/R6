@@ -14,11 +14,11 @@ class DummyYDL:
 
     def extract_info(self, url, download=False):
         self._extracted = True
-        # Simula un video semplice
+        # Simulate a simple video download info retrieval
         return {"title": "dummy", "_type": "video"}
 
     def download(self, urls):
-        # Simula invocazione dei progress hook (se presenti)
+        # Simulate invocation of progress hooks (if present)
         for hook in self.opts.get("progress_hooks", []):
             hook({"status": "downloading", "downloaded_bytes": 50, "total_bytes": 100, "_speed_str": "1.0", "_eta_str": "1"})
             hook({"status": "finished"})
@@ -31,7 +31,7 @@ def test_mock_yt_dlp(monkeypatch):
     def ph(d):
         calls.append(d.get("status"))
 
-    # Sostituisci la classe YoutubeDL con la nostra Dummy
+    # Replace YoutubeDL class with our Dummy mock class
     monkeypatch.setattr(yt_dlp, "YoutubeDL", DummyYDL)
 
     ydl_opts = {"progress_hooks": [ph]}
@@ -41,4 +41,3 @@ def test_mock_yt_dlp(monkeypatch):
         ydl.download(["http://example.com"])
 
     assert "downloading" in calls and "finished" in calls
-

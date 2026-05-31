@@ -5,6 +5,5 @@ from utils.ffmpeg import get_ffmpeg_path
 def test_get_ffmpeg_path_exists():
     path = get_ffmpeg_path()
     assert isinstance(path, str)
-    # Il progetto contiene ffmpeg/ffmpeg.exe nella root del repo
-    assert os.path.exists(path), f"ffmpeg non trovato in: {path}"
-
+    # The project contains ffmpeg/ffmpeg.exe in the repository root directory
+    assert os.path.exists(path), f"ffmpeg not found at: {path}"

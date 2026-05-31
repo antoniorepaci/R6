@@ -2,6 +2,7 @@ import sys
 import os
 import threading
 import tkinter as tk
+from typing import Optional, Union, Any
 from tkinter import filedialog, messagebox
 
 import customtkinter
@@ -44,7 +45,7 @@ def get_ffmpeg_path() -> str:
     return os.path.join(base, "ffmpeg", "ffmpeg.exe")
 
 
-def costruisci_ydl_opts(formato: str, cartella_output: str, progress_hook, logger=None, allow_playlist: bool = False, playlist_items: str = None) -> dict:
+def costruisci_ydl_opts(formato: str, cartella_output: str, progress_hook, logger=None, allow_playlist: bool = False, playlist_items: Optional[str] = None) -> dict:
     """Costruisce il dizionario di opzioni per yt_dlp in base al formato scelto.
     Se `allow_playlist` è True include %(playlist_index) nell'outtmpl e permette il download della playlist.
     Se `playlist_items` è fornito (es. "1-10"), lo usa per limitare gli elementi."""
@@ -149,97 +150,114 @@ class App(customtkinter.CTk):
     def _build_ui(self):
         padding = {"padx": 20, "pady": 8}
 
+        # Abilita due colonne: colonna 0 si espande, colonna 1 fissa per il bottone tema
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
+
         # Titolo
         self._lbl_titolo = customtkinter.CTkLabel(
             self,
             text="YouTube Music & Video Downloader",
             font=customtkinter.CTkFont(size=20, weight="bold"),
         )
-        self._lbl_titolo.grid(row=0, column=0, sticky="ew", padx=20, pady=(20, 4))
+        self._lbl_titolo.grid(row=0, column=0, sticky="ew", padx=20, pady=(20, 10))
 
-        # 1. Campo URL
+        # Bottone switch tema giorno/notte
+        self._btn_tema = customtkinter.CTkButton(
+            self,
+            text="Giorno",
+            width=80,
+            height=32,
+            command=self._toggle_tema,
+        )
+        self._btn_tema.grid(row=0, column=1, sticky="e", padx=(0, 20), pady=(20, 10))
+
+        # Row 1-2: URL
         self._lbl_url = customtkinter.CTkLabel(self, text="URL YouTube:", anchor="w")
-        self._lbl_url.grid(row=1, column=0, sticky="ew", **padding)
+        self._lbl_url.grid(row=1, column=0, columnspan=2, sticky="ew", **padding)
+        self._entry_url = customtkinter.CTkEntry(self, placeholder_text="Incolla URL YouTube...", height=38)
+        self._entry_url.grid(row=2, column=0, columnspan=2, sticky="ew", **padding)
 
-        self._entry_url = customtkinter.CTkEntry(
-            self, placeholder_text="Incolla URL YouTube...", height=38,
-        )
-        self._entry_url.grid(row=2, column=0, sticky="ew", **padding)
-
-        # 2. Selezione formato (audio + video)
+        # Row 3-4: Formato
         self._lbl_formato = customtkinter.CTkLabel(self, text="Formato:", anchor="w")
-        self._lbl_formato.grid(row=3, column=0, sticky="ew", **padding)
-
+        self._lbl_formato.grid(row=3, column=0, columnspan=2, sticky="ew", **padding)
         self._var_formato = customtkinter.StringVar(value=TUTTI_I_FORMATI[0])
-        self._menu_formato = customtkinter.CTkOptionMenu(
-            self, values=TUTTI_I_FORMATI, variable=self._var_formato, height=38,
-        )
-        self._menu_formato.grid(row=4, column=0, sticky="ew", **padding)
+        self._menu_formato = customtkinter.CTkOptionMenu(self, values=TUTTI_I_FORMATI, variable=self._var_formato, height=38)
+        self._menu_formato.grid(row=4, column=0, columnspan=2, sticky="ew", **padding)
 
-        # Checkbox scarica playlist
+        # Row 5: Checkbox Playlist
         self._chk_playlist = customtkinter.CTkCheckBox(self, text="Scarica playlist (se presente)", variable=self._var_allow_playlist)
-        self._chk_playlist.grid(row=5, column=0, sticky="w", padx=20, pady=(0, 8))
+        self._chk_playlist.grid(row=5, column=0, columnspan=2, sticky="w", padx=20, pady=(10, 5))
 
+        # Row 6: Frame Opzioni Avanzate Playlist (Threshold & Range)
+        self._frame_playlist_opts = customtkinter.CTkFrame(self, fg_color="transparent")
+        self._frame_playlist_opts.grid(row=6, column=0, columnspan=2, sticky="ew", padx=20, pady=(0, 10))
+        self._frame_playlist_opts.grid_columnconfigure(1, weight=1)
+        self._frame_playlist_opts.grid_columnconfigure(3, weight=1)
 
-        # 3. Cartella di output
+        self._lbl_threshold = customtkinter.CTkLabel(self._frame_playlist_opts, text="Conf. se >", font=("Arial", 11))
+        self._lbl_threshold.grid(row=0, column=0, sticky="w", padx=(0, 5))
+        self._spin_threshold = customtkinter.CTkEntry(self._frame_playlist_opts, textvariable=self._var_playlist_threshold, width=45, height=28)
+        self._spin_threshold.grid(row=0, column=1, sticky="w")
+
+        self._lbl_range = customtkinter.CTkLabel(self._frame_playlist_opts, text="Range (es. 1-5)", font=("Arial", 11))
+        self._lbl_range.grid(row=0, column=2, sticky="w", padx=(15, 5))
+        self._entry_range = customtkinter.CTkEntry(self._frame_playlist_opts, textvariable=self._var_playlist_range, placeholder_text="1-10", width=80, height=28)
+        self._entry_range.grid(row=0, column=3, sticky="w")
+
+        # Row 7: Cartella Output Label
         self._lbl_output = customtkinter.CTkLabel(self, text="Cartella di output:", anchor="w")
-        self._lbl_output.grid(row=6, column=0, sticky="ew", **padding)
+        self._lbl_output.grid(row=7, column=0, columnspan=2, sticky="ew", **padding)
 
+        # Row 8: Cartella Output Entry + Button
         self._frame_output = customtkinter.CTkFrame(self, fg_color="transparent")
-        self._frame_output.grid(row=7, column=0, sticky="ew", **padding)
+        self._frame_output.grid(row=8, column=0, columnspan=2, sticky="ew", **padding)
         self._frame_output.grid_columnconfigure(0, weight=1)
-
-        self._entry_output = customtkinter.CTkEntry(
-            self._frame_output,
-            placeholder_text="Nessuna cartella selezionata...",
-            state="disabled",
-            height=38,
-        )
+        self._entry_output = customtkinter.CTkEntry(self._frame_output, placeholder_text="Nessuna cartella selezionata...", state="disabled", height=38)
         self._entry_output.grid(row=0, column=0, sticky="ew", padx=(0, 8))
-
-        self._btn_sfoglia = customtkinter.CTkButton(
-            self._frame_output, text="Sfoglia", width=90, height=38,
-            command=self._sfoglia_cartella,
-        )
+        self._btn_sfoglia = customtkinter.CTkButton(self._frame_output, text="Sfoglia", width=90, height=38, command=self._sfoglia_cartella)
         self._btn_sfoglia.grid(row=0, column=1)
 
-        # 4. Bottone Scarica
-        self._btn_scarica = customtkinter.CTkButton(
-            self,
-            text="Scarica",
-            height=44,
-            font=customtkinter.CTkFont(size=15, weight="bold"),
-            command=self._avvia_download,
-        )
-        self._btn_scarica.grid(row=8, column=0, sticky="ew", padx=20, pady=(16, 8))
+        # Row 9: Bottone Scarica
+        self._btn_scarica = customtkinter.CTkButton(self, text="Scarica", height=44, font=customtkinter.CTkFont(size=15, weight="bold"), command=self._avvia_download)
+        self._btn_scarica.grid(row=9, column=0, columnspan=2, sticky="ew", padx=20, pady=(15, 5))
 
-        # 5. Barra di progresso (file corrente)
-        self._progressbar = customtkinter.CTkProgressBar(self, height=14)
+        # Row 10: ProgressBar File
+        self._progressbar = customtkinter.CTkProgressBar(self, height=12)
         self._progressbar.set(0)
-        self._progressbar.grid(row=9, column=0, sticky="ew", **padding)
+        self._progressbar.grid(row=10, column=0, columnspan=2, sticky="ew", padx=20, pady=(5, 2))
 
-        # Barra di progresso playlist (totale) - inizialmente nascosta impostando height a 10
-        self._progress_playlist = customtkinter.CTkProgressBar(self, height=10)
+        # Row 11: ProgressBar Playlist
+        self._progress_playlist = customtkinter.CTkProgressBar(self, height=8)
         self._progress_playlist.set(0)
-        self._progress_playlist.grid(row=10, column=0, sticky="ew", padx=20, pady=(4, 0))
+        self._progress_playlist.grid(row=11, column=0, columnspan=2, sticky="ew", padx=20, pady=(2, 5))
 
-        # 6. Label di stato
-        self._lbl_stato = customtkinter.CTkLabel(
-            self, text="In attesa...", anchor="w",
-            font=customtkinter.CTkFont(size=13),
-        )
-        self._lbl_stato.grid(row=11, column=0, sticky="ew", padx=20, pady=(4, 0))
+        # Row 12: Label Stato
+        self._lbl_stato = customtkinter.CTkLabel(self, text="In attesa...", anchor="w", font=customtkinter.CTkFont(size=12))
+        self._lbl_stato.grid(row=12, column=0, columnspan=2, sticky="ew", padx=20, pady=(0, 5))
 
-        # 7. Log testuale scrollabile
+        # Row 13: Log
         self._lbl_log = customtkinter.CTkLabel(self, text="Log:", anchor="w")
-        self._lbl_log.grid(row=12, column=0, sticky="ew", **padding)
-
-        self._textbox_log = customtkinter.CTkTextbox(self, height=220, state="disabled")
-        self._textbox_log.grid(row=13, column=0, sticky="nsew", padx=20, pady=(0, 20))
-        self.grid_rowconfigure(13, weight=1)
+        self._lbl_log.grid(row=13, column=0, columnspan=2, sticky="ew", padx=20, pady=(5, 0))
+        self._textbox_log = customtkinter.CTkTextbox(self, height=180, state="disabled")
+        self._textbox_log.grid(row=14, column=0, columnspan=2, sticky="nsew", padx=20, pady=(0, 20))
+        self.grid_rowconfigure(14, weight=1)
 
     # -----------------------------------------------------------------------
-    # Azioni UI
+    # Toggle tema giorno / notte
+    # -----------------------------------------------------------------------
+    def _toggle_tema(self):
+        """Alterna tra dark mode e light mode."""
+        modo_attuale = customtkinter.get_appearance_mode()
+        if modo_attuale == "Dark":
+            customtkinter.set_appearance_mode("light")
+            self._btn_tema.configure(text="Notte")
+        else:
+            customtkinter.set_appearance_mode("dark")
+            self._btn_tema.configure(text="Giorno")
+
+    # -----------------------------------------------------------------------
+    # Azioni UI Utility
     # -----------------------------------------------------------------------
     def _sfoglia_cartella(self):
         """Apre il dialogo di selezione cartella."""
@@ -250,115 +268,84 @@ class App(customtkinter.CTk):
             self._entry_output.insert(0, cartella)
             self._entry_output.configure(state="disabled")
 
+    def _parse_range_string(self, range_str: str):
+        """Parsa una stringa di range (es. '1-10') e ritorna (start, end) o (None, None)."""
+        if not range_str or not range_str.strip():
+            return None, None
+        try:
+            parts = range_str.strip().replace(" ", "").split("-")
+            if len(parts) == 2:
+                return int(parts[0]), int(parts[1])
+        except (ValueError, IndexError):
+            pass
+        return None, None
+
     def _avvia_download(self):
         """Valida gli input e avvia il download in un thread separato."""
-        if self._download_attivo:
-            return
+        if self._download_attivo: return
 
         url = self._entry_url.get().strip()
         cartella = self._entry_output.get().strip()
         formato = self._var_formato.get()
         allow_playlist = self._var_allow_playlist.get()
+        threshold = self._var_playlist_threshold.get()
+        range_str = self._var_playlist_range.get().strip()
 
-        # Validazione input
-        if not url:
-            self._imposta_stato("[!] Inserisci un URL YouTube valido.", colore="red")
-            return
-        if "youtube.com" not in url and "youtu.be" not in url:
-            self._imposta_stato("[!] L'URL non sembra un link YouTube.", colore="red")
-            return
-        if not cartella:
-            self._imposta_stato("[!] Seleziona una cartella di output.", colore="red")
-            return
-        if not os.path.isdir(cartella):
-            self._imposta_stato("[!] La cartella di output non esiste.", colore="red")
-            return
+        # Validazione
+        if not url or ("youtube.com" not in url and "youtu.be" not in url):
+            self._imposta_stato("[!] Inserisci un URL YouTube valido.", "red"); return
+        if not cartella or not os.path.isdir(cartella):
+            self._imposta_stato("[!] Seleziona una cartella di output valida.", "red"); return
         if not os.path.isfile(get_ffmpeg_path()):
-            self._imposta_stato("[!] ffmpeg.exe mancante in ./ffmpeg.", colore="red")
-            self._log("ERRORE: ffmpeg.exe non trovato in ffmpeg/ffmpeg.exe")
-            return
+            self._imposta_stato("[!] ffmpeg.exe mancante in ./ffmpeg.", "red"); return
 
-        # Avvio download
+        # Avvio
         self._download_attivo = True
         self._btn_scarica.configure(state="disabled")
         self._progressbar.set(0)
         self._progress_playlist.set(0)
         self._playlist_total = None
         self._playlist_done = 0
-        self._imposta_stato("Recupero informazioni...", colore="default")
-        self._log(f"URL: {url}")
-        self._log(f"Formato selezionato: {formato}")
-        self._log(f"Destinazione: {cartella}")
-        self._log(f"Scarica playlist: {allow_playlist}")
-        self._log("-" * 50)
+        self._imposta_stato("Recupero informazioni...", "default")
+        self._log(f"Config: Playlist={allow_playlist}, Threshold={threshold}, Range='{range_str}'")
 
-        thread = threading.Thread(
-            target=self._thread_download,
-            args=(url, formato, cartella),
-            daemon=True,
-        )
+        thread = threading.Thread(target=self._thread_download, args=(url, formato, cartella, threshold, range_str), daemon=True)
         thread.start()
 
-    # -----------------------------------------------------------------------
-    # Thread di download
-    # -----------------------------------------------------------------------
-    def _thread_download(self, url: str, formato: str, cartella: str):
+    def _thread_download(self, url: str, formato: str, cartella: str, threshold: int, range_str: str):
         """Esegue il download nel thread separato."""
         try:
-            allow_playlist = self._var_allow_playlist.get()
-            ydl_opts = costruisci_ydl_opts(
-                formato,
-                cartella,
-                self._progress_hook,
-                logger=self._YdlLogger(self),
-                allow_playlist=allow_playlist,
-            )
+            playlist_items = None
+            if range_str:
+                start, end = self._parse_range_string(range_str)
+                if start is not None: playlist_items = f"{start}:{end}"
+
+            ydl_opts = costruisci_ydl_opts(formato, cartella, self._progress_hook, logger=self._YdlLogger(self), allow_playlist=self._var_allow_playlist.get(), playlist_items=playlist_items)
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                # Recupera informazioni prima del download
                 info = ydl.extract_info(url, download=False)
 
-                # se è playlist e l'utente ha scelto di scaricare la playlist, chiedi conferma per playlist grandi
-                entries = info.get("entries") if isinstance(info, dict) else None
-                total_entries = None
-                if entries is not None:
-                    # some entries might be generators; try to get len safely
-                    try:
-                        total_entries = len(entries)
-                    except Exception:
-                        total_entries = info.get("playlist_count") or info.get("n_entries")
+                # Calcolo entries
+                count = 1
+                if info.get("_type") == "playlist" or "entries" in info:
+                    entries = info.get("entries")
+                    try: count = len(entries) if entries else (info.get("playlist_count") or 0)
+                    except: count = info.get("playlist_count") or 0
 
-                if total_entries is None and isinstance(info, dict) and info.get("_type") == "playlist":
-                    total_entries = info.get("playlist_count")
+                self._playlist_total = count
 
-                if total_entries:
-                    self._playlist_total = total_entries
-                else:
-                    self._playlist_total = 1
-
-                # Se l'utente ha scelto di scaricare la playlist ma la playlist è grande, chiedi conferma
-                if allow_playlist and self._playlist_total and self._playlist_total > 20:
-                    # crea evento di sincronizzazione
+                # Check threshold
+                if self._var_allow_playlist.get() and count > threshold:
                     self._playlist_confirm_event = threading.Event()
-
-                    def _prompt_confirm():
-                        risposta = messagebox.askyesno("Conferma playlist", f"La playlist contiene {self._playlist_total} elementi. Vuoi continuare?")
-                        self._playlist_confirm_result = risposta
+                    def _ask():
+                        self._playlist_confirm_result = messagebox.askyesno("Conferma", f"Playlist di {count} elementi. Continuare?")
                         self._playlist_confirm_event.set()
-
-                    self.after(0, _prompt_confirm)
-                    # aspetta la scelta dell'utente
+                    self.after(0, _ask)
                     self._playlist_confirm_event.wait()
                     if not self._playlist_confirm_result:
-                        # utente ha annullato
-                        self.after(0, self._on_download_errore, "Download playlist annullato dall'utente.")
-                        return
+                        self.after(0, self._on_download_errore, "Annullato."); return
 
-                titolo = info.get("title", "Titolo sconosciuto") if isinstance(info, dict) else "Titolo"
-                self.after(0, self._log, f"Titolo: {titolo}")
-                self.after(0, self._imposta_stato, f"Download in corso: {titolo}", "default")
-
-                # Avvia il download effettivo
+                self.after(0, self._log, f"Titolo: {info.get('title', 'N/A')}")
                 ydl.download([url])
 
             self.after(0, self._on_download_completato)

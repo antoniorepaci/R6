@@ -25,18 +25,20 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller ^
-            --onefile ^
-            --windowed ^
-            --name MyApp ^
-            --icon=img/icon.ico ^
-            --add-data "img;img" ^
-            app.py
+          pyinstaller `
+            --onefile `
+            --windowed `
+            --name R6 `
+            --icon "img/icon.ico" `
+            --add-data "img/icon.ico;img" `
+            --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" `
+            main.py
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          files: dist/*.exe
+          name: "R6 ${{ github.ref_name }}"
+          files: dist/R6.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

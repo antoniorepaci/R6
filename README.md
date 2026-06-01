@@ -1,4 +1,4 @@
-# YouTube Music Downloader
+# R6
 
 A Python desktop app (customtkinter) to download audio and video from YouTube using yt-dlp and ffmpeg.
 
@@ -30,7 +30,7 @@ Video:
 
 ## Build with PyInstaller
 ```powershell
-pyinstaller --onedir --windowed --icon "img/icon.ico" --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" --add-data "img/icon.ico;img" --name "YTMusicDownloader" main.py
+pyinstaller --onefile --windowed --icon "img/icon.ico" --add-data "img/icon.ico;img" --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" --name "R6" main.py
 ```
 
 ## User settings

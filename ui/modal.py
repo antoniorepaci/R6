@@ -1,10 +1,15 @@
 import customtkinter
 from utils.localization import TRANSLATIONS
+from utils.path import resource_path
 
 
 def show_copyright_modal(root, lang: str = "en"):
     """Shows a copyright warning modal window before the main application window is shown."""
     modal = customtkinter.CTkToplevel(root)
+    try:
+        modal.iconbitmap(resource_path("img/icon.ico"))
+    except Exception:
+        pass
     texts = TRANSLATIONS.get(lang, TRANSLATIONS["en"])
 
     modal.title(texts["modal_title"])

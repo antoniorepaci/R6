@@ -7,6 +7,7 @@ import customtkinter
 import yt_dlp
 
 from utils.ffmpeg import get_ffmpeg_path
+from utils.path import resource_path
 from ytdl_opts import build_ydl_opts
 from ui.modal import show_copyright_modal
 from utils.localization import TRANSLATIONS
@@ -48,6 +49,10 @@ class App(customtkinter.CTk):
 
         # Main window configuration
         self.title("R6 Downloader")
+        try:
+            self.iconbitmap(resource_path("img/icon.ico"))
+        except Exception:
+            pass
         self.minsize(640, 800)
         self.resizable(True, True)
 

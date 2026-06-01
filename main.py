@@ -5,6 +5,7 @@ and executes the app when run as a script.
 """
 
 from utils.ffmpeg import get_ffmpeg_path
+from utils.path import resource_path
 from ytdl_opts import build_ydl_opts
 
 # Keep the main application UI separated in `app.py`
@@ -21,4 +22,8 @@ __all__ = ["get_ffmpeg_path", "build_ydl_opts", "costruisci_ydl_opts", "App"]
 
 if __name__ == "__main__":
     app = App()
+    try:
+        app.iconbitmap(resource_path("img/icon.ico"))
+    except Exception:
+        pass
     app.mainloop()

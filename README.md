@@ -30,5 +30,5 @@ Video:
 
 ## Build with PyInstaller
 ```powershell
-pyinstaller --onedir --windowed --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" --name "YTMusicDownloader" main.py
+pyinstaller --onedir --windowed --icon "img/icon.ico" --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" --add-data "img/icon.ico;img" --name "YTMusicDownloader" main.py
 ```

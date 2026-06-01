@@ -47,7 +47,7 @@ class App(customtkinter.CTk):
         self.withdraw()
 
         # Main window configuration
-        self.title("YouTube Music & Video Downloader")
+        self.title("R6 Downloader")
         self.minsize(640, 800)
         self.resizable(True, True)
 

@@ -8,6 +8,7 @@ import yt_dlp
 
 from utils.ffmpeg import get_ffmpeg_path
 from utils.path import resource_path
+from utils import settings as app_settings
 from ytdl_opts import build_ydl_opts
 from ui.modal import show_copyright_modal
 from utils.localization import TRANSLATIONS
@@ -78,10 +79,68 @@ class App(customtkinter.CTk):
         # Setup default language to English and apply translations
         self._current_lang = "en"
         self._var_lang = customtkinter.StringVar(value="English")
+
+        # Load and apply saved settings (overrides defaults above)
+        self._apply_settings()
         self._update_locale()
+
+        # Save settings on window close
+        self.protocol("WM_DELETE_WINDOW", self._on_close)
 
         # Show copyright modal window
         show_copyright_modal(self, lang=self._current_lang)
+
+    # -----------------------------------------------------------------------
+    # Settings persistence
+    # -----------------------------------------------------------------------
+    def _apply_settings(self):
+        """Load settings.json and restore all persisted preferences."""
+        s = app_settings.load()
+
+        # Language
+        lang = s.get("language", "English")
+        self._var_lang.set(lang)
+        self._menu_lang.set(lang)
+        self._current_lang = "en" if lang == "English" else "it"
+
+        # Theme
+        theme = s.get("theme", "dark")
+        customtkinter.set_appearance_mode(theme)
+
+        # Output folder (restore only if the directory still exists)
+        folder = s.get("output_folder", "")
+        if folder and os.path.isdir(folder):
+            self._entry_output.configure(state="normal")
+            self._entry_output.insert(0, folder)
+            self._entry_output.configure(state="disabled")
+
+        # Format
+        fmt = s.get("format", "mp3 320kbps")
+        if fmt in ALL_FORMATS:
+            self._var_format.set(fmt)
+            self._menu_format.set(fmt)
+
+        # Playlist options
+        self._var_allow_playlist.set(s.get("allow_playlist", False))
+        self._var_playlist_threshold.set(s.get("playlist_threshold", 20))
+        self._var_playlist_range.set(s.get("playlist_range", ""))
+
+    def _save_settings(self):
+        """Persist current UI state to settings.json."""
+        app_settings.save({
+            "language": self._var_lang.get(),
+            "theme": customtkinter.get_appearance_mode().lower(),
+            "output_folder": self._entry_output.get().strip(),
+            "format": self._var_format.get(),
+            "allow_playlist": self._var_allow_playlist.get(),
+            "playlist_threshold": self._var_playlist_threshold.get(),
+            "playlist_range": self._var_playlist_range.get().strip(),
+        })
+
+    def _on_close(self):
+        """Save settings and destroy the window."""
+        self._save_settings()
+        self.destroy()
 
     # -----------------------------------------------------------------------
     # UI Building

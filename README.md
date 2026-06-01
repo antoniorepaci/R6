@@ -32,3 +32,9 @@ Video:
 ```powershell
 pyinstaller --onedir --windowed --icon "img/icon.ico" --add-binary "ffmpeg/ffmpeg.exe;ffmpeg" --add-data "img/icon.ico;img" --name "YTMusicDownloader" main.py
 ```
+
+## User settings
+On first run, a `settings.json` file is automatically created in the same folder as the app (or executable).
+It stores: selected language, theme, output folder, format, and playlist options.
+The file is updated every time the window is closed.
+

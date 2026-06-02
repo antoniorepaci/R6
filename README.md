@@ -34,7 +34,14 @@ pyinstaller --onefile --windowed --icon "img/icon.ico" --add-data "img/icon.ico;
 ```
 
 ## User settings
-On first run, a `settings.json` file is automatically created in the same folder as the app (or executable).
-It stores: selected language, theme, output folder, format, and playlist options.
-The file is updated every time the window is closed.
+On first run, the app automatically creates the folder `C:\ProgramData\R6\` and stores `settings.json` inside it.
+
+```
+C:\ProgramData\R6\settings.json
+```
+
+This location is shared between all users on the same machine and does **not** require administrator privileges.
+
+The file stores: selected language, theme, output folder, format, and playlist options.
+It is updated every time the window is closed.
 

@@ -1,8 +1,10 @@
 """
-Persistent user settings stored in settings.json next to the executable (or project root).
+Persistent user settings stored in settings.json inside %PROGRAMDATA%\\R6\\
+(typically C:\\ProgramData\\R6\\).
 
-Uses sys.executable dir when frozen (PyInstaller), otherwise cwd so the file
-is always written to a user-writable location, never inside sys._MEIPASS.
+This folder is shared between all users on the machine and does not require
+administrator privileges to write.
+The directory is created automatically if it does not exist.
 """
 
 import json
@@ -20,14 +22,13 @@ DEFAULTS: dict = {
 }
 
 
+SETTINGS_DIR = os.path.join(os.environ.get("PROGRAMDATA", r"C:\ProgramData"), "R6")
+
+
 def _settings_path() -> str:
-    """Returns the absolute path to settings.json."""
-    if getattr(sys, "frozen", False):
-        # Running as a PyInstaller bundle
-        base = os.path.dirname(sys.executable)
-    else:
-        base = os.path.abspath(".")
-    return os.path.join(base, "settings.json")
+    """Returns the absolute path to settings.json inside %PROGRAMDATA%\\R6\\."""
+    os.makedirs(SETTINGS_DIR, exist_ok=True)
+    return os.path.join(SETTINGS_DIR, "settings.json")
 
 
 def load() -> dict:

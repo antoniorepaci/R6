@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aff56ba1-4cc9-41f3-9b6d-7fdf79b06ef5" name="Changes" comment="add resource path utility and update icon handling in app and modal">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="aff56ba1-4cc9-41f3-9b6d-7fdf79b06ef5" name="Changes" comment="update build configuration and rename application to R6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,75 +28,75 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "antoniorepaci"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;antoniorepaci&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/antoniorepaci/R6.git",
-    "accountId": "af20c943-f5e4-41b9-82ac-0577c31a2664"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/antoniorepaci/R6.git&quot;,
+    &quot;accountId&quot;: &quot;af20c943-f5e4-41b9-82ac-0577c31a2664&quot;
   }
-}]]></component>
+}</component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="3.579208219091428E-5" />
-      <entry key="MS500" value="0.12904983176659018" />
-      <entry key="S2" value="0.6123148617309087" />
-      <entry key="S5" value="1.0786246909816173" />
-      <entry key="S10" value="1.7313437120794244" />
-      <entry key="S30" value="3.4834387406027028" />
-      <entry key="S60" value="6.236475183415232" />
-      <entry key="M2" value="10.311376278878054" />
-      <entry key="M5" value="15.07476148950634" />
-      <entry key="M10" value="17.423613466265856" />
-      <entry key="M15" value="18.639500823233053" />
-      <entry key="M30" value="21.23080940643792" />
-      <entry key="H1" value="24.178381880593218" />
-      <entry key="H2" value="26.580569556885983" />
-      <entry key="H4" value="28.13751840434126" />
-      <entry key="D1" value="29.665764594108964" />
-      <entry key="W1" value="29.951631369262394" />
+      <entry key="MS100" value="1.0002883282864818" />
+      <entry key="MS500" value="1.1959678404360783" />
+      <entry key="S2" value="1.7636098262095388" />
+      <entry key="S5" value="2.2450262068281854" />
+      <entry key="S10" value="2.5505750077597638" />
+      <entry key="S30" value="2.8299368153585283" />
+      <entry key="S60" value="2.9121099676285334" />
+      <entry key="M2" value="2.9553138316800216" />
+      <entry key="M5" value="3.0013217546304007" />
+      <entry key="M10" value="3.6156368627698567" />
+      <entry key="M15" value="5.020646047661368" />
+      <entry key="M30" value="9.997703013312902" />
+      <entry key="H1" value="16.882517847921477" />
+      <entry key="H2" value="23.141515285323997" />
+      <entry key="H4" value="27.493518178994304" />
+      <entry key="D1" value="31.98789075383916" />
+      <entry key="W1" value="32.85288809711092" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000000000000004" />
-      <entry key="S5" value="1.0000007251586511" />
-      <entry key="S10" value="1.000851562476322" />
-      <entry key="S30" value="1.0947848307074344" />
-      <entry key="S60" value="1.3078714515953604" />
-      <entry key="M2" value="1.5548616508602489" />
-      <entry key="M5" value="1.7900851222706757" />
-      <entry key="M10" value="1.8888673254601476" />
-      <entry key="M15" value="1.9244667478272974" />
-      <entry key="M30" value="1.9614919385139418" />
-      <entry key="H1" value="1.980556953222984" />
-      <entry key="H2" value="1.9902307575625913" />
-      <entry key="H4" value="1.995103390388452" />
-      <entry key="D1" value="1.9991822283437037" />
-      <entry key="W1" value="1.9998831345130252" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="3.496446806005753E-174" />
+      <entry key="S10" value="1.8714704612919806E-87" />
+      <entry key="S30" value="1.348755430479363E-29" />
+      <entry key="S60" value="4.590577012188928E-15" />
+      <entry key="M2" value="9.21176522912454E-8" />
+      <entry key="M5" value="0.0023010927631546595" />
+      <entry key="M10" value="0.06772229633447525" />
+      <entry key="M15" value="0.2092492416136076" />
+      <entry key="M30" value="0.6467899575330495" />
+      <entry key="H1" value="1.1373017459347263" />
+      <entry key="H2" value="1.5081606970532175" />
+      <entry key="H4" value="1.7367507664987523" />
+      <entry key="D1" value="1.9535044187535489" />
+      <entry key="W1" value="1.9932906064253335" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.7066219086161292E-4" />
-      <entry key="MS500" value="0.2772381742061276" />
-      <entry key="S2" value="1.2218764622160323" />
-      <entry key="S5" value="1.8223233000785368" />
-      <entry key="S10" value="2.463149499478069" />
-      <entry key="S30" value="4.365262416369987" />
-      <entry key="S60" value="7.397238400556664" />
-      <entry key="M2" value="11.776215461311514" />
-      <entry key="M5" value="16.823427352549718" />
-      <entry key="M10" value="19.290660822558138" />
-      <entry key="M15" value="20.549077686906397" />
-      <entry key="M30" value="23.184524450075656" />
-      <entry key="H1" value="26.15487115479821" />
-      <entry key="H2" value="28.568694692900216" />
-      <entry key="H4" value="30.13154587709729" />
-      <entry key="D1" value="31.66476373616458" />
-      <entry key="W1" value="31.95148824811001" />
+      <entry key="MS100" value="0.9140967663579468" />
+      <entry key="MS500" value="1.1748709928534757" />
+      <entry key="S2" value="1.755033163445971" />
+      <entry key="S5" value="2.2396812230863326" />
+      <entry key="S10" value="2.5472103036266316" />
+      <entry key="S30" value="2.8285950518893577" />
+      <entry key="S60" value="2.9114061148554415" />
+      <entry key="M2" value="2.9549532804917105" />
+      <entry key="M5" value="3.0034231955625357" />
+      <entry key="M10" value="3.6825032705533145" />
+      <entry key="M15" value="5.228227169761745" />
+      <entry key="M30" value="10.641903983020715" />
+      <entry key="H1" value="18.017471484738795" />
+      <entry key="H2" value="24.648074221885107" />
+      <entry key="H4" value="29.229329272025705" />
+      <entry key="D1" value="33.94121575608077" />
+      <entry key="W1" value="34.84615246107297" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -127,7 +125,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Debug",
+    "Python.main.executor": "Run",
     "Python.python main.py.executor": "Run",
     "Python.smoke_test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -253,6 +251,7 @@
       <option name="presentableId" value="Default" />
       <updated>1780245270419</updated>
       <workItem from="1780245271455" duration="5747000" />
+      <workItem from="1780385297767" duration="285000" />
     </task>
     <task id="LOCAL-00001" summary="Add theme toggle and enhance UI layout in main.py">
       <option name="closed" value="true" />
@@ -334,7 +333,31 @@
       <option name="project" value="LOCAL" />
       <updated>1780342510342</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="implement user settings persistence with settings.json">
+      <option name="closed" value="true" />
+      <created>1780343983330</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1780343983330</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add GitHub Actions workflow for building and releasing EXE">
+      <option name="closed" value="true" />
+      <created>1780344765621</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1780344765621</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update build configuration and rename application to R6">
+      <option name="closed" value="true" />
+      <created>1780345051799</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1780345051799</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,7 +385,10 @@
     <MESSAGE value="fix: update XML encoding for special characters in workspace.xml" />
     <MESSAGE value="refactor: rename application title and update README for clarity" />
     <MESSAGE value="add resource path utility and update icon handling in app and modal" />
-    <option name="LAST_COMMIT_MESSAGE" value="add resource path utility and update icon handling in app and modal" />
+    <MESSAGE value="implement user settings persistence with settings.json" />
+    <MESSAGE value="add GitHub Actions workflow for building and releasing EXE" />
+    <MESSAGE value="update build configuration and rename application to R6" />
+    <option name="LAST_COMMIT_MESSAGE" value="update build configuration and rename application to R6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -371,6 +397,11 @@
           <url>file://$PROJECT_DIR$/smoke_test.py</url>
           <line>15</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

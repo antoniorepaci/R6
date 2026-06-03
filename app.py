@@ -184,8 +184,21 @@ class App(customtkinter.CTk):
         # Row 1-2: URL
         self._lbl_url = customtkinter.CTkLabel(self, text="YouTube URL:", anchor="w")
         self._lbl_url.grid(row=1, column=0, columnspan=3, sticky="ew", **padding)
-        self._entry_url = customtkinter.CTkEntry(self, placeholder_text="Paste YouTube URL...", height=38)
-        self._entry_url.grid(row=2, column=0, columnspan=3, sticky="ew", **padding)
+
+        self._frame_url = customtkinter.CTkFrame(self, fg_color="transparent")
+        self._frame_url.grid(row=2, column=0, columnspan=3, sticky="ew", **padding)
+        self._frame_url.grid_columnconfigure(0, weight=1)
+
+        self._entry_url = customtkinter.CTkEntry(self._frame_url, placeholder_text="Paste YouTube URL...", height=38)
+        self._entry_url.grid(row=0, column=0, sticky="ew", padx=(0, 8))
+
+        self._btn_paste = customtkinter.CTkButton(self._frame_url, text="Paste", width=90, height=38, command=self._paste_url)
+        self._btn_paste.grid(row=0, column=1)
+
+        # Right-click context menu on the URL entry
+        self._ctx_menu_url = tk.Menu(self._entry_url, tearoff=0)
+        self._ctx_menu_url.add_command(label="Paste", command=self._paste_url)
+        self._entry_url.bind("<Button-3>", self._show_url_context_menu)
 
         # Row 3-4: Format
         self._lbl_format = customtkinter.CTkLabel(self, text="Format:", anchor="w")
@@ -276,6 +289,7 @@ class App(customtkinter.CTk):
         self._entry_range.configure(placeholder_text=texts["placeholder_range"])
         self._lbl_output.configure(text=texts["lbl_output"])
         self._btn_browse.configure(text=texts["btn_browse"])
+        self._btn_paste.configure(text=texts["btn_paste"])
         self._btn_download.configure(text=texts["btn_download"])
         self._lbl_log.configure(text=texts["log_label"])
 
@@ -312,8 +326,28 @@ class App(customtkinter.CTk):
             self._btn_theme.configure(text=texts["theme_light"])
 
     # -----------------------------------------------------------------------
+    # -----------------------------------------------------------------------
     # UI Utility Actions
     # -----------------------------------------------------------------------
+    def _paste_url(self):
+        """Paste clipboard content into the URL entry."""
+        try:
+            text = self.clipboard_get()
+        except tk.TclError:
+            text = ""
+        if text:
+            self._entry_url.delete(0, tk.END)
+            self._entry_url.insert(0, text.strip())
+
+    def _show_url_context_menu(self, event):
+        """Show right-click context menu on the URL entry."""
+        texts = TRANSLATIONS[self._current_lang]
+        self._ctx_menu_url.entryconfigure(0, label=texts["ctx_paste"])
+        try:
+            self._ctx_menu_url.tk_popup(event.x_root, event.y_root)
+        finally:
+            self._ctx_menu_url.grab_release()
+
     def _browse_folder(self):
         """Opens directory selection dialog."""
         texts = TRANSLATIONS[self._current_lang]

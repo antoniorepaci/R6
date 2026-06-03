@@ -536,8 +536,9 @@ class App(customtkinter.CTk):
         self._btn_download.configure(state="normal")
         self._progressbar.set(0)
         self._progress_playlist.set(0)
-        self._set_status(texts["lbl_status_error"].format(msg=message[:80]), "red")
-        self._log(texts["log_error"].format(msg=message))
+        clean_msg = message.removeprefix("ERROR: ")
+        self._set_status(texts["lbl_status_error"].format(msg=clean_msg[:80]), "red")
+        self._log(texts["log_error"].format(msg=clean_msg))
         self._log(texts["log_separator"])
 
     # -----------------------------------------------------------------------
@@ -569,8 +570,13 @@ class App(customtkinter.CTk):
 
         def warning(self, msg):
             if msg:
+                # Suppress the noisy JS-runtime deprecation notice (handled via auto-detection)
+                if "JavaScript runtime" in msg or "js-runtimes" in msg or "EJS" in msg:
+                    return
                 self._app.after(0, self._app._log, f"WARNING: {msg}")
 
         def error(self, msg):
             if msg:
-                self._app.after(0, self._app._log, f"ERROR: {msg}")
+                # yt-dlp already includes "ERROR: " in the message — avoid doubling it
+                clean = msg.removeprefix("ERROR: ")
+                self._app.after(0, self._app._log, f"ERROR: {clean}")

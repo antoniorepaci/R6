@@ -1,7 +1,17 @@
 from typing import Optional
 import os
+import shutil
 
 from utils.ffmpeg import get_ffmpeg_path
+
+
+def _detect_js_runtime() -> Optional[str]:
+    """Returns the first available JS runtime spec for yt-dlp, or None."""
+    for runtime in ("node", "nodejs", "deno"):
+        path = shutil.which(runtime)
+        if path:
+            return f"{runtime}:{path}"
+    return None
 
 
 def build_ydl_opts(file_format: str, output_dir: str, progress_hook, logger=None, allow_playlist: bool = False, playlist_items: Optional[str] = None) -> dict:
@@ -21,6 +31,11 @@ def build_ydl_opts(file_format: str, output_dir: str, progress_hook, logger=None
         "quiet": True,
         "no_warnings": True,
     }
+
+    # Auto-detect and inject an available JS runtime (Node.js / Deno)
+    js_runtime = _detect_js_runtime()
+    if js_runtime:
+        opts["js_runtimes"] = [js_runtime]
     # if playlist is not explicitly allowed, force noplaylist
     if not allow_playlist:
         opts["noplaylist"] = True

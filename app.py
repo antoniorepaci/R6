@@ -570,9 +570,6 @@ class App(customtkinter.CTk):
 
         def warning(self, msg):
             if msg:
-                # Suppress the noisy JS-runtime deprecation notice (handled via auto-detection)
-                if "JavaScript runtime" in msg or "js-runtimes" in msg or "EJS" in msg:
-                    return
                 self._app.after(0, self._app._log, f"WARNING: {msg}")
 
         def error(self, msg):
